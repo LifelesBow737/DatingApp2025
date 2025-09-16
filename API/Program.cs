@@ -3,7 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+// Ruta absoluta a la carpeta Data dentro del proyecto
+var projectRoot = Directory.GetCurrentDirectory(); 
+var dbPath = Path.Combine(projectRoot, "Data", "dating.db"); // aquí se creará el archivo
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite($"Data Source={dbPath}"));
 
 builder.Services.AddControllers();
 
@@ -17,3 +23,6 @@ var app = builder.Build();
 app.MapControllers();
 
 app.Run();
+
+
+
