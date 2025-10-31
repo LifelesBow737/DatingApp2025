@@ -5,7 +5,11 @@
   "projects": {
     "DatingAppFrontend": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "skipTests": false,
+          "path": "src"}
+        },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
