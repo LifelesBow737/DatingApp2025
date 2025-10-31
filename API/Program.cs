@@ -1,25 +1,24 @@
 using API.Data;
+using API.Interfaces;
+using API.Services;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-// Ruta absoluta a la carpeta Data dentro del proyecto
-var projectRoot = Directory.GetCurrentDirectory(); 
-var dbPath = Path.Combine(projectRoot, "Data", "dating.db"); // aquí se creará el archivo
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite($"Data Source={dbPath}"));
+// Add services to the container.
 
 builder.Services.AddControllers();
-
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnection"));
 });
+builder.Services.AddCors();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 app.UseCors(x => x.AllowAnyHeader()
     .AllowAnyMethod()
     .WithOrigins(
@@ -30,6 +29,3 @@ app.UseCors(x => x.AllowAnyHeader()
 app.MapControllers();
 
 app.Run();
-
-
-
