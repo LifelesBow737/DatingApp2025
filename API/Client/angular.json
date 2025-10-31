@@ -3,13 +3,18 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "DatingAppFrontend": {
+    "client": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "skipTests": false,
-          "path": "src"}
+          "path": "src"
         },
+        "@schematics/angular:service": {
+          "skipTests": false,
+          "path": "src/core/services"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -18,9 +23,6 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -65,10 +67,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "DatingAppFrontend:build:production"
+              "buildTarget": "client:build:production"
             },
             "development": {
-              "buildTarget": "DatingAppFrontend:build:development"
+              "buildTarget": "client:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,10 +81,6 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
