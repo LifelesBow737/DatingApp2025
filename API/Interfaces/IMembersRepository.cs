@@ -1,37 +1,12 @@
-using System;
 using API.Entities;
-using API.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
-namespace API.Data;
+namespace API.Interfaces;
 
-public class MembersRepository(AppDbContext context) : IMembersRepository
+public interface IMembersRepository
 {
-    public async Task<Member?> GetMemberAsync(string id)
-    {
-        return await context.Members.FindAsync(id);
-    }
-
-    public async Task<IReadOnlyList<Member>> GetMembersAsync()
-    {
-        return await context.Members.ToListAsync();
-    }
-
-    public async Task<IReadOnlyList<Photo>> GetPhotosAsync(string memberId)
-    {
-        return await context.Members
-            .Where(m => m.Id == memberId)
-            .SelectMany(m => m.Photos)
-            .ToListAsync();
-    }
-
-    public async Task<bool> SaveAllAsync()
-    {
-        return await context.SaveChangesAsync() > 0;
-    }
-
-    public void Update(Member member)
-    {
-        context.Entry(member).State = EntityState.Modified;
-    }
+    void Update(Member member);
+    Task<bool> SaveAllAsync();
+    Task<IReadOnlyList<Member>> GetMembersAsync();
+    Task<Member?> GetMemberAsync(string id);
+    Task<IReadOnlyList<Photo>> GetPhotosAsync(string memberId);
 }
