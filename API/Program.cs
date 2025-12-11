@@ -37,11 +37,16 @@ public static class Program
 
         WebApplication app = builder.Build();
 
-        using var scope = app.Services.CreateScope();
+using var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+context.Database.Migrate();
+        Task.Run(() => Seed.SeedUsers(context));
+
+        //using var scope = app.Services.CreateScope();
         var services = scope.ServiceProvider;
         try
         {
-            var context = services.GetRequiredService<AppDbContext>();
+            //var context = services.GetRequiredService<AppDbContext>();
             context.Database.Migrate();
             Task.Run(() => Seed.SeedUsers(context));
         }
