@@ -193,6 +193,26 @@
           "Members"
         ],
         "operationId": "Members_GetMembers",
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -485,7 +505,11 @@
         "required": [
           "displayName",
           "email",
-          "password"
+          "password",
+          "gender",
+          "city",
+          "country",
+          "birthDay"
         ],
         "properties": {
           "displayName": {
@@ -500,6 +524,23 @@
           "password": {
             "type": "string",
             "minLength": 6
+          },
+          "gender": {
+            "type": "string",
+            "minLength": 1
+          },
+          "city": {
+            "type": "string",
+            "minLength": 1
+          },
+          "country": {
+            "type": "string",
+            "minLength": 1
+          },
+          "birthDay": {
+            "type": "string",
+            "format": "date",
+            "minLength": 1
           }
         }
       },
