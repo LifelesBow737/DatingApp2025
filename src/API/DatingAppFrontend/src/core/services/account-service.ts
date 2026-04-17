@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { LoginCreds, RegisteredCreds, User } from '../../types/user';
+import { LoginCreds, RegisterCreds, User } from '../../types/user';
 import { Observable, tap } from 'rxjs';
-import { RegisterCreds } from '../../types/registerCreds';
 import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +11,6 @@ export class AccountService {
   private http = inject(HttpClient);
   currentUser = signal<User | null>(null);
   baseUrl = environment.apiUrl;
-
 
   register(creds: RegisterCreds): Observable<User> {
     return this.http.post<User>(this.baseUrl + "account/register", creds).pipe(
@@ -22,6 +21,7 @@ export class AccountService {
       })
     );
   }
+
   login(creds: LoginCreds): Observable<User> {
     return this.http.post<User>(this.baseUrl + "account/login", creds).pipe(
       tap(user => {
@@ -39,6 +39,7 @@ export class AccountService {
 
   logout() {
     localStorage.removeItem("user");
+    localStorage.removeItem("filters");
     this.currentUser.set(null);
-}
+  }
 }
