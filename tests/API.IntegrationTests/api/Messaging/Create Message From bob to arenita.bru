@@ -1,7 +1,7 @@
 meta {
-  name: Create Message From bob to arenita
+  name: Create Message from arenita to bob
   type: http
-  seq: 4
+  seq: 2
 }
 
 post {
@@ -11,16 +11,17 @@ post {
 }
 
 headers {
-  Authorization: Bearer {{bob_token}}
+  Authorization: Bearer {{token}}
 }
 
 body:json {
   {
-      "recipientId": "arenita-id",
-      "content": "Test message from bob to arenita"
+      "recipientId": "calamardo-id",
+      "content": "Test message 2 from Arenito to Calamardo"
   }
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
