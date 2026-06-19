@@ -1,16 +1,27 @@
-import { TestBed } from '@angular/core/testing';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { PaginationResult } from '../../types/paginationMetadata';
+import { Message } from '../../types/message';
 
-import { MessagesService } from './messages-service';
+@Injectable({
+  providedIn: 'root'
+})
+export class MessagesService {
+  private baseUrl = environment.apiUrl;
+  private http = inject(HttpClient);
 
-describe('MessagesService', () => {
-  let service: MessagesService;
+  getMessages(container: string, pageNumber: number, pageSize: number) {
+    let params = new HttpParams();
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(MessagesService);
-  });
+    params = params.append('pageNumber', pageNumber);
+    params = params.append('pageSize', pageSize);
+    params = params.append('container', container);
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+    return this.http.get<PaginationResult<Message>>(this.baseUrl + 'messages', {params});
+  }
+
+  getMessageThread(memberId: string) {
+    return this.http.get<Message[]>(this.baseUrl + 'messages/thread/' + memberId);
+  }
+}
